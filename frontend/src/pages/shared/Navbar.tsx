@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { LogOut, User2 } from 'lucide-react';
 
 const Navbar = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const user = true; // Assuming user is logged in for testing purposes
+    const user = false; // Assuming user is logged in for testing purposes
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!isMobileMenuOpen);
@@ -16,22 +19,22 @@ const Navbar = () => {
                 <nav className="max-w-7xl mx-auto mt-2 py-4 px-4 md:px-0">
                     <div className="flex items-center justify-between">
                         <h1 className="text-2xl font-bold text-[#FF6500]">Hire Hub</h1>
-                        
+
                         {/* Links for larger screens */}
                         <div className="hidden md:flex gap-8 items-center">
                             <NavLink to='/' className={({ isActive }) =>
                                 isActive
-                                    ? "font-bold border-b-4 border-[#FF6500]"
+                                    ? "font-bold pb-5 mb-[-26px] border-b-4 border-[#FF6500]"
                                     : "font-bold text-slate-500"
                             }>Home</NavLink>
                             <NavLink to='/browse' className={({ isActive }) =>
                                 isActive
-                                    ? "font-bold border-b-4 border-[#FF6500]"
+                                    ? "font-bold pb-5 mb-[-26px] border-b-4 border-[#FF6500]"
                                     : "font-bold text-slate-500"
                             }>Browse</NavLink>
                             <NavLink to='/jobs' className={({ isActive }) =>
                                 isActive
-                                    ? "font-bold border-b-4 border-[#FF6500]"
+                                    ? "font-bold pb-5 mb-[-26px] border-b-4 border-[#FF6500]"
                                     : "font-bold text-slate-500"
                             }>Jobs</NavLink>
                         </div>
@@ -39,9 +42,34 @@ const Navbar = () => {
                         {/* Profile picture & Hamburger menu for mobile */}
                         <div className="md:hidden flex items-center gap-4">
                             {!isMobileMenuOpen && user && (
-                                <img src="https://via.placeholder.com/30" alt="User" className="w-8 h-8 rounded-full" />
+                                <Popover>
+                                    <PopoverTrigger>
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                        </Avatar>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-fit">
+                                        <div className='flex items-center gap-4'>
+                                            <Avatar>
+                                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                            </Avatar>
+                                            <div>
+                                                <h2 className='font-medium'>Name</h2>
+                                            </div>
+                                        </div>
+                                        <div className='mt-3 flex items-center gap-1'>
+                                            <User2 />
+                                            <Button variant='link'>View Profile</Button>
+                                        </div>
+                                        <div className='flex items-center gap-1'>
+                                            <LogOut className='text-red-500' />
+                                            <Button variant='link'>Logout</Button>
+                                        </div>
+                                    </PopoverContent>
+
+                                </Popover>
                             )} {/* Placeholder picture */}
-                            
+
                             <button onClick={toggleMobileMenu} className="focus:outline-none">
                                 {isMobileMenuOpen ? (
                                     <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +91,32 @@ const Navbar = () => {
                                     <Button variant='outline' className="ml-2 border border-[#FF6500]">Sign In</Button>
                                 </div>
                             )}
-                            {user && <img src="https://via.placeholder.com/40" alt="User" className="ml-8 w-10 h-10 rounded-full" />}
+                            {user && <Popover >
+                                <PopoverTrigger>
+                                    <Avatar>
+                                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                    </Avatar>
+                                </PopoverTrigger>
+                                <PopoverContent >
+                                    <div className='flex items-center gap-4'>
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                        </Avatar>
+                                        <div>
+                                            <h2 className='font-medium'>Name</h2>
+                                        </div>
+                                    </div>
+                                    <div className='mt-3 flex items-center gap-1'>
+                                        <User2 />
+                                        <Button variant='link'>View Profile</Button>
+                                    </div>
+                                    <div className='flex items-center gap-1'>
+                                        <LogOut className='text-red-500' />
+                                        <Button variant='link'>Logout</Button>
+                                    </div>
+                                </PopoverContent>
+
+                            </Popover>}
                         </div>
                     </div>
 
