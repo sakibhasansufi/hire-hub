@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { LogOut, User2 } from 'lucide-react';
 
 const Navbar = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const user = false; // Assuming user is logged in for testing purposes
+    const user = false; 
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!isMobileMenuOpen);
@@ -15,7 +15,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <section className="shadow-md">
+            <section className="shadow-md ">
                 <nav className="max-w-7xl mx-auto mt-2 py-4 px-4 md:px-0">
                     <div className="flex items-center justify-between">
                         <h1 className="text-2xl font-bold text-[#FF6500]">Hire Hub</h1>
@@ -25,17 +25,17 @@ const Navbar = () => {
                             <NavLink to='/' className={({ isActive }) =>
                                 isActive
                                     ? "font-bold pb-5 mb-[-26px] border-b-4 border-[#FF6500]"
-                                    : "font-bold text-slate-500"
+                                    : "font-bold text-slate-500 hover:text-black hover:pb-5 hover:mb-[-26px] hover:border-b-4 hover:border-[#B7B7B7]"
                             }>Home</NavLink>
                             <NavLink to='/browse' className={({ isActive }) =>
                                 isActive
                                     ? "font-bold pb-5 mb-[-26px] border-b-4 border-[#FF6500]"
-                                    : "font-bold text-slate-500"
+                                    : "font-bold text-slate-500 hover:text-black hover:pb-5 hover:mb-[-26px] hover:border-b-4 hover:border-[#B7B7B7]"
                             }>Browse</NavLink>
                             <NavLink to='/jobs' className={({ isActive }) =>
                                 isActive
                                     ? "font-bold pb-5 mb-[-26px] border-b-4 border-[#FF6500]"
-                                    : "font-bold text-slate-500"
+                                    : "font-bold text-slate-500 hover:text-black hover:pb-5 hover:mb-[-26px] hover:border-b-4 hover:border-[#B7B7B7]"
                             }>Jobs</NavLink>
                         </div>
 
@@ -87,8 +87,8 @@ const Navbar = () => {
                         <div className="hidden md:flex items-center">
                             {!user && (
                                 <div>
-                                    <Button className="bg-[#FF6500] hover:bg-[#B7B7B7]">Sign Up</Button>
-                                    <Button variant='outline' className="ml-2 border border-[#FF6500]">Sign In</Button>
+                                    <Link to='/signUp'><Button className="bg-[#FF6500] hover:bg-[#B7B7B7]">Sign Up</Button></Link>
+                                    <Link to='/login'><Button variant='outline' className="ml-2 border border-[#FF6500]">Sign In</Button></Link>
                                 </div>
                             )}
                             {user && <Popover >
