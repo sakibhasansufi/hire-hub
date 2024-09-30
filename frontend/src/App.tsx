@@ -6,6 +6,7 @@ import Jobs from "./pages/Jobs";
 import Home from "./pages/Home/Home";
 import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
+import Footer from "./pages/shared/Footer";
 
 function App() {
 
@@ -22,6 +23,9 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
         </Routes>
+      </div>
+      <div>
+        <Footer />
       </div>
 
     </section>
