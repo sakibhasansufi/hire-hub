@@ -12,7 +12,7 @@ function App() {
 
   return (
     <section>
-      <div className="sticky top-0 bg-white z-50">
+      <div className="sticky top-0 backdrop-blur z-50">
         <Navbar />
       </div>
       <div>
