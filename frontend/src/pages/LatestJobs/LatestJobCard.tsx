@@ -5,7 +5,7 @@ import { Bookmark } from "lucide-react";
 
 const LatestJobCard = () => {
     return (
-        <section className="shadow-lg p-4">
+        <section className="shadow-lg p-4 dark:border dark:border-[#3C3D37]">
             <div className="flex justify-between items-center">
                 <h1>2 day</h1>
                 <Bookmark />
@@ -39,8 +39,8 @@ const LatestJobCard = () => {
 
 
             <div className="mt-2 flex gap-8">
-               <button className="border p-2 rounded-xl font-medium">Details</button>
-               <button className="border p-2 rounded-xl text-gray-500">Save for letter</button>
+               <button className="border p-2 rounded-xl font-medium border-[#FF6500] hover:border-[#B7B7B7] text-[#FF6500]">Details</button>
+               <button className="border p-2 rounded-xl text-gray-900 border-[#B7B7B7] hover:border-[#FF6500] dark:text-white">Save for letter</button>
             </div>
 
         </section>

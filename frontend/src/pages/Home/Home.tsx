@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import HeroSection from "./HeroSection";
 import CategoryCarousel from "./CategoryCarousel";
-import LatestJobs from "../LatestJobs/Latestjobs";
+import LatestJobs from "../LatestJobs/LatestJobs";
 
 
 const Home = () => {

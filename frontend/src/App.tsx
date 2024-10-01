@@ -8,14 +8,17 @@ import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
 import Footer from "./pages/shared/Footer";
 
+
 function App() {
 
   return (
     <section>
-      <div className="sticky top-0 backdrop-blur z-50">
+
+      <div className="sticky top-0 backdrop-blur z-50 ">
         <Navbar />
       </div>
-      <div>
+
+      <div >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<Browse />} />
