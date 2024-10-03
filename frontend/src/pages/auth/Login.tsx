@@ -1,14 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsEye } from "react-icons/bs";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { useState } from "react";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import axios from "axios";
+import { USER_API_ENDPOINT } from "@/components/utils/constant";
+import { toast } from "sonner";
 
 
 const Login = () => {
     const [seePassword, setSeePassword] = useState(false);
+    const navigate = useNavigate();
     const [input,setInput] = useState({
         email: "",
         password: "",
@@ -23,9 +27,26 @@ const Login = () => {
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         console.log(input);
+        try {
+            const res = await axios.post(`${USER_API_ENDPOINT}/login`,input,{
+                headers :{'Content-Type': "application/json"},
+                withCredentials: true,
+            })
+            if(res.data.success){
+                navigate("/");
+                toast.success(res.data.message)
+            }
+        } catch (error: unknown) {
+            if (error instanceof Error) { 
+              console.error(error.message);  
+              toast.error(error.response.data.message);
+            } else {
+              console.error("Unknown error:", error);
+            }
+          }
     }
     return (
-        <section className="min-h-screen flex items-center">
+        <section className="min-h-screen flex items-center font-lato">
             <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border bg-white p-7 shadow-lg sm:p-10 dark:border-zinc-700 dark:bg-zinc-900">
                 <h1 className="text-3xl font-semibold tracking-tight">Log in</h1>
 
@@ -35,13 +56,12 @@ const Login = () => {
                             Email
                         </label>
                         <input
-                            className="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7]"
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
                             placeholder="Enter your email"
                             name="email"
                             value={input.email}
                             type="email"
                             onChange={changeEventHandler}
-                            required
                         />
                     </div>
                     <div className="space-y-2 text-sm">
@@ -50,17 +70,16 @@ const Login = () => {
                         </label>
                         <div className="flex items-center">
                             <input
-                                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7]"
+                                className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black"
                                 placeholder="Enter password"
                                 name="password"
                                 value={input.password}
                                 type={seePassword ? "text" : "password"}
                                 onChange={changeEventHandler}
-                                required
                             />
                             <span onClick={() => setSeePassword(!seePassword)} className="-ml-6">
                                 {
-                                    seePassword ? <BsEye className="text-xl"></BsEye> : <IoEyeOffOutline className="text-xl"></IoEyeOffOutline>
+                                    seePassword ? <BsEye className="text-xl dark:text-black"></BsEye> : <IoEyeOffOutline className="text-xl dark:text-black"></IoEyeOffOutline>
                                 }
                             </span>
                         </div>
@@ -80,7 +99,7 @@ const Login = () => {
                                     value="job seeker"
                                     checked={input.role === "job seeker"}
                                 />
-                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 ">Student</Label>
+                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 min-w-fit">Job Seeker</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Input

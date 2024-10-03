@@ -6,46 +6,43 @@ import jwt from 'jsonwebtoken';
 export const register = async (req, res) => {
     try {
         const { fullName, email, password, phoneNumber, role } = req.body;
+        console.log(fullName, email, password, phoneNumber, role)
 
-        if (!fullName) {
-            return res.status(400).json({ message: "You have forgot to enter your full name" })
+        if(!fullName){
+            return res.status(400).json({message: "You have forgot to enter full name",success: false})
         }
-
-        if (!email) {
-            return res.status(400).json({ message: "You have forgot to enter your email" })
+        if(!email){
+            return res.status(400).json({message: "You have forgot to enter email",success: false})
         }
-
         if (!password) {
-            return res.status(400).json({ message: "You have forgot to enter password" })
+            return res.status(400).json({ message: "You have forgot to enter password",success: false })
         }
-
-        if (!phoneNumber) {
-            return res.status(400).json({ message: "You have forgot to enter your phone number" })
+        if(!phoneNumber){
+            return res.status(400).json({message: "You have forgot to enter phone number",success: false})
         }
-
-        if (!role) {
-            return res.status(400).json({ message: "Please select a role to sign up" })
+        if(!role){
+            return res.status(400).json({message: "You have forgot to enter role",success: false})
         }
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: "Email already exists" })
+            return res.status(400).json({ message: "Email already exists",success: false })
         };
 
         if (password.length < 6) {
-            return res.status(400).json({ error: "Password must be at least 6 characters long" });
+            return res.status(400).json({ error: "Password must be at least 6 characters long",success: false });
         }
 
         // Check if password contains at least one capital letter
         const capitalLetterRegex = /[A-Z]/;
         if (!capitalLetterRegex.test(password)) {
-            return res.status(400).json({ error: "Password must contain at least one capital letter" });
+            return res.status(400).json({ error: "Password must contain at least one capital letter",success: false });
         }
 
         // Check if password contains at least one number
         const numberRegex = /\d/;
         if (!numberRegex.test(password)) {
-            return res.status(400).json({ error: "Password must contain at least one number" });
+            return res.status(400).json({ error: "Password must contain at least one number",success: false });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -56,7 +53,7 @@ export const register = async (req, res) => {
             phoneNumber,
             role
         })
-        res.status(201).json({ message: "Account created successfully" })
+        res.status(201).json({ message: "Account created successfully",success: true })
 
     } catch (error) {
         console.log("Error in register: ", error.message);
@@ -71,29 +68,29 @@ export const login = async (req, res) => {
         const { email, password, role } = req.body;
 
         if (!email) {
-            return res.status(400).json({ message: "You have forgot to enter your email" })
+            return res.status(400).json({ message: "You have forgot to enter your email", success: false })
         }
 
         if (!password) {
-            return res.status(400).json({ message: "You have forgot to enter password" })
+            return res.status(400).json({ message: "You have forgot to enter password",success: false })
         }
 
         if (!role) {
-            return res.status(400).json({ message: "Please select a role to log in" })
+            return res.status(400).json({ message: "Please select a role to log in",success: false })
         }
 
         let user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: "User not found" })
+            return res.status(400).json({ message: "User not found",success: false })
         }
 
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
-            return res.status(400).json({ message: "Password is incorrect" })
+            return res.status(400).json({ message: "Password is incorrect",success: false })
         }
 
         if (role !== user.role) {
-            return res.status(400).json({ message: "Please select the right role" })
+            return res.status(400).json({ message: "Please select the right role",success: false })
         }
 
         const tokenData = {
@@ -113,6 +110,7 @@ export const login = async (req, res) => {
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
             message: `Welcome back ${user.fullName}`,
             user,
+            success: true
         })
 
     } catch (error) {
@@ -126,7 +124,8 @@ export const login = async (req, res) => {
 export const logout = async (req,res)=>{
     try {
         return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-            message: "Logged out successfully."
+            message: "Logged out successfully.",
+            success: true
         })
     } catch (error) {
         console.log("Error in logout: ", error.message);
@@ -150,16 +149,17 @@ export const updateProfile = async (req,res) =>{
         if (!user) {
             return res.status(400).json({
                 message: "User not found.",
+                success: false
             })
         }
 
         const existingEmail = await User.findOne({ email });
 		if (existingEmail) {
-			return res.status(400).json({ error: "Email has already taken" });
+			return res.status(400).json({ error: "Email has already taken",success: false });
 		}
 
         if ((!newPassword && currentPassword) || (!currentPassword && newPassword)) {
-			return res.status(400).json({ error: "Please provide both current password and new password" });
+			return res.status(400).json({ error: "Please provide both current password and new password",success: false });
 		}
 
 
@@ -167,18 +167,18 @@ export const updateProfile = async (req,res) =>{
 			const isMatch = await bcrypt.compare(currentPassword, user.password);
 			if (!isMatch) return res.status(400).json({ error: "Current password is incorrect" });
 			if (newPassword.length < 6) {
-				return res.status(400).json({ error: "Password must be at least 6 characters long" });
+				return res.status(400).json({ error: "Password must be at least 6 characters long",success: false });
 			}
 
 			const capitalLetterRegex = /[A-Z]/;
 			// Check if password contains at least one capital letter
 			if (!capitalLetterRegex.test(newPassword)) {
-				return res.status(400).json({ error: "Password must contain at least one capital letter" });
+				return res.status(400).json({ error: "Password must contain at least one capital letter",success: false });
 			}
 			// Check if password contains at least one number
 			const numberRegex = /\d/;
 			if (!numberRegex.test(newPassword)) {
-				return res.status(400).json({ error: "Password must contain at least one number" });
+				return res.status(400).json({ error: "Password must contain at least one number",success: false });
 			}
 
 			user.password = await bcrypt.hash(newPassword, 10);
@@ -209,6 +209,7 @@ export const updateProfile = async (req,res) =>{
         return res.status(200).json({
             message:"Profile updated successfully.",
             user,
+            success: true
         })
 
     } catch (error) {

@@ -1,36 +1,67 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate,  } from "react-router-dom";
+import axios from "axios";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { BsEye } from "react-icons/bs";
 import { useState } from "react";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { USER_API_ENDPOINT } from "@/components/utils/constant";
+import { toast } from "sonner";
 
 
 const SignUp = () => {
     const [seePassword, setSeePassword] = useState(false);
-    
+    const navigate = useNavigate();
+
     const [input, setInput] = useState({
         fullName: "",
         email: "",
         password: "",
         phoneNumber: "",
         role: "",
-        file:""
+        file: ""
     })
 
-    const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>)=>{
-        setInput({...input,[e.target.name]: e.target.value})
+    const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInput({ ...input, [e.target.name]: e.target.value })
     }
 
     const changeFileHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput({ ...input, file: e.target.files?.[0]?.name || "" });
+        // setInput({ ...input, file: e.target.files?.[0] });
     };
 
 
-    const submitHandler = async (e: React.FormEvent<HTMLFormElement>)=>{
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(input)
+        console.log(input);
+        const formData = new FormData();
+        formData.append("fullName", input.fullName);
+        formData.append("email", input.email);
+        formData.append("password", input.password);
+        formData.append("phoneNumber", input.phoneNumber);
+        formData.append("role", input.role);
+        if (input.file) {
+            formData.append("file", input.file);
+        }
+        try {
+            const res = await axios.post(`${USER_API_ENDPOINT}/register`,formData,{
+                headers :{'Content-Type': "multipart/form-data"},
+                withCredentials: true,
+            })
+            if(res.data.success){
+                navigate("/");
+                toast.success(res.data.message)
+            }
+        } catch (error: unknown) {
+            if (error instanceof Error) { 
+              console.error(error.message);  
+              toast.error(error.response.data.message);
+            } else {
+              console.error("Unknown error:", error);
+            }
+          }
     }
 
     return (
@@ -44,13 +75,13 @@ const SignUp = () => {
                             Full Name
                         </label>
                         <input
-                            className="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7]"
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
                             placeholder="Enter your full name"
                             name="fullName"
                             value={input.fullName}
                             type="text"
                             onChange={changeEventHandler}
-                            required
+                            
                         />
                     </div>
 
@@ -60,13 +91,13 @@ const SignUp = () => {
                             Email
                         </label>
                         <input
-                            className="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7]"
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
                             placeholder="Enter your email"
                             name="email"
                             value={input.email}
                             type="email"
                             onChange={changeEventHandler}
-                            required
+                            
                         />
                     </div>
 
@@ -76,13 +107,13 @@ const SignUp = () => {
                             Phone Number
                         </label>
                         <input
-                            className="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7]"
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
                             placeholder="Enter your phone number"
                             name="phoneNumber"
                             value={input.phoneNumber}
                             type="text"
                             onChange={changeEventHandler}
-                            required
+                            
                         />
                     </div>
 
@@ -94,17 +125,17 @@ const SignUp = () => {
 
                         <div className="flex items-center">
                             <input
-                                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7]"
+                                className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
                                 placeholder="Enter password"
                                 name="password"
                                 value={input.password}
                                 type={seePassword ? "text" : "password"}
                                 onChange={changeEventHandler}
-                                required
+                                
                             />
                             <span onClick={() => setSeePassword(!seePassword)} className="-ml-6">
                                 {
-                                    seePassword ? <BsEye className="text-xl"></BsEye> : <IoEyeOffOutline className="text-xl"></IoEyeOffOutline>
+                                    seePassword ? <BsEye className="text-xl dark:text-black"></BsEye> : <IoEyeOffOutline className="text-xl dark:text-black"></IoEyeOffOutline>
                                 }
                             </span>
                         </div>
@@ -115,14 +146,14 @@ const SignUp = () => {
                         <RadioGroup className="flex items-center gap-10 my-5">
                             <div className="flex items-center space-x-2">
                                 <Input
-                                    className="cursor-pointer"
+                                    className="cursor-pointer "
                                     type="radio"
                                     name="role"
                                     value="job seeker"
                                     checked={input.role === "job seeker"}
                                     onChange={changeEventHandler}
                                 />
-                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 ">Student</Label>
+                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 min-w-fit">Job Seeker</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Input
@@ -133,7 +164,7 @@ const SignUp = () => {
                                     checked={input.role === "recruiter"}
                                     onChange={changeEventHandler}
                                 />
-                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 ">Student</Label>
+                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 ">Recruiter</Label>
                             </div>
 
                         </RadioGroup>
@@ -148,7 +179,7 @@ const SignUp = () => {
                             className="mt-2 border-[#B7B7B7]"
                             accept="image/*"
                             type="file"
-                            onChange={changeFileHandler} 
+                            onChange={changeFileHandler}
                         />
                     </div>
                     <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full">Sign Up</button>
