@@ -97,7 +97,7 @@ const Navbar = () => {
                         <div className="hidden md:flex items-center gap-4">
                             {!user && (
                                 <div>
-                                    <Link to='/signUp'><Button className="bg-[#FF6500] hover:bg-[#B7B7B7]">Sign Up</Button></Link>
+                                    <Link to='/signUp'><Button className="bg-[#FF6500] hover:bg-[#B7B7B7] hover:text-black">Sign Up</Button></Link>
                                     <Link to='/login'><Button variant='outline' className="ml-2 border border-[#FF6500]">Sign In</Button></Link>
                                 </div>
                             )}

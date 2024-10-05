@@ -10,14 +10,15 @@ import { USER_API_ENDPOINT } from "@/components/utils/constant";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "@/redux/authSlice";
-import {RootState} from "../../redux/store";
+import { RootState } from "../../redux/store";
+import { Loader2 } from "lucide-react";
 
 
 const Login = () => {
     const [seePassword, setSeePassword] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {loading} = useSelector((store : RootState)=>store.auth)
+    const { loading } = useSelector((store: RootState) => store.auth)
     const [input, setInput] = useState({
         email: "",
         password: "",
@@ -124,7 +125,15 @@ const Login = () => {
 
                         </RadioGroup>
                     </div>
-                    <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full">Log in</button>
+                    {
+                        loading ? <button
+                            className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full hover:text-black">
+                            <div className="flex justify-center items-center">
+                                <Loader2 className="mr-2 animate-spin h-3 w-3" /> <div>Have patience.....</div></div>
+                        </button> :
+                            <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] hover:text-black w-full">Log in</button>
+                    }
+
                 </form>
                 <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">
                     Don&apos;t have an account?

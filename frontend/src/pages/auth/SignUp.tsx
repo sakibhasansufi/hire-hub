@@ -1,4 +1,4 @@
-import { Link, useNavigate,  } from "react-router-dom";
+import { Link, useNavigate, } from "react-router-dom";
 import axios from "axios";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { BsEye } from "react-icons/bs";
@@ -8,11 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { USER_API_ENDPOINT } from "@/components/utils/constant";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { setLoading } from "@/redux/authSlice";
+import { Loader2 } from "lucide-react";
 
 
 const SignUp = () => {
     const [seePassword, setSeePassword] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { loading } = useSelector((store: RootState) => store.auth);
 
     const [input, setInput] = useState({
         fullName: "",
@@ -46,22 +52,25 @@ const SignUp = () => {
             formData.append("file", input.file);
         }
         try {
-            const res = await axios.post(`${USER_API_ENDPOINT}/register`,formData,{
-                headers :{'Content-Type': "multipart/form-data"},
+            dispatch(setLoading(true));
+            const res = await axios.post(`${USER_API_ENDPOINT}/register`, formData, {
+                headers: { 'Content-Type': "multipart/form-data" },
                 withCredentials: true,
             })
-            if(res.data.success){
+            if (res.data.success) {
                 navigate("/");
                 toast.success(res.data.message)
             }
         } catch (error: unknown) {
-            if (error instanceof Error) { 
-              console.log(error);  
-              toast.error(error.response.data.message);
+            if (error instanceof Error) {
+                console.log(error);
+                toast.error(error.response.data.message);
             } else {
-              console.error("Unknown error:", error);
+                console.error("Unknown error:", error);
             }
-          }
+        } finally {
+            dispatch(setLoading(false))
+        }
     }
 
     return (
@@ -81,7 +90,7 @@ const SignUp = () => {
                             value={input.fullName}
                             type="text"
                             onChange={changeEventHandler}
-                            
+
                         />
                     </div>
 
@@ -97,7 +106,7 @@ const SignUp = () => {
                             value={input.email}
                             type="email"
                             onChange={changeEventHandler}
-                            
+
                         />
                     </div>
 
@@ -113,7 +122,7 @@ const SignUp = () => {
                             value={input.phoneNumber}
                             type="text"
                             onChange={changeEventHandler}
-                            
+
                         />
                     </div>
 
@@ -131,7 +140,7 @@ const SignUp = () => {
                                 value={input.password}
                                 type={seePassword ? "text" : "password"}
                                 onChange={changeEventHandler}
-                                
+
                             />
                             <span onClick={() => setSeePassword(!seePassword)} className="-ml-6">
                                 {
@@ -182,7 +191,9 @@ const SignUp = () => {
                             onChange={changeFileHandler}
                         />
                     </div>
-                    <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full">Sign Up</button>
+                    {
+                        loading ? <button  className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full hover:text-black"><div className="flex justify-center items-center"><Loader2 className="mr-2 animate-spin h-3 w-3"/> <div>Have patience.....</div></div></button> : <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] hover:text-black w-full">Sign u</button>
+                    }
                 </form>
                 <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">
                     Don&apos;t have an account?
