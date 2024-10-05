@@ -8,42 +8,51 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import { USER_API_ENDPOINT } from "@/components/utils/constant";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
+import {RootState} from "../../redux/store";
 
 
 const Login = () => {
     const [seePassword, setSeePassword] = useState(false);
     const navigate = useNavigate();
-    const [input,setInput] = useState({
+    const dispatch = useDispatch();
+    const {loading} = useSelector((store : RootState)=>store.auth)
+    const [input, setInput] = useState({
         email: "",
         password: "",
         role: ""
     });
 
-    const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>)=>{
-        setInput({...input, [e.target.name] : e.target.value})
+    const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInput({ ...input, [e.target.name]: e.target.value })
     }
 
 
-    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) =>{
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(input);
         try {
-            const res = await axios.post(`${USER_API_ENDPOINT}/login`,input,{
-                headers :{'Content-Type': "application/json"},
+            dispatch(setLoading(true));
+            const res = await axios.post(`${USER_API_ENDPOINT}/login`, input, {
+                headers: { 'Content-Type': "application/json" },
                 withCredentials: true,
             })
-            if(res.data.success){
+            if (res.data.success) {
                 navigate("/");
                 toast.success(res.data.message)
             }
         } catch (error: unknown) {
-            if (error instanceof Error) { 
-              console.error(error.message);  
-              toast.error(error.response.data.message);
+            if (error instanceof Error) {
+                console.error(error.message);
+                toast.error(error.response.data.message);
+
             } else {
-              console.error("Unknown error:", error);
+                console.error("Unknown error:", error);
             }
-          }
+        } finally {
+            dispatch(setLoading(false));
+        }
     }
     return (
         <section className="min-h-screen flex items-center font-lato">
@@ -56,7 +65,7 @@ const Login = () => {
                             Email
                         </label>
                         <input
-                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black "
                             placeholder="Enter your email"
                             name="email"
                             value={input.email}
@@ -70,7 +79,7 @@ const Login = () => {
                         </label>
                         <div className="flex items-center">
                             <input
-                                className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black"
+                                className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black"
                                 placeholder="Enter password"
                                 name="password"
                                 value={input.password}
@@ -79,7 +88,7 @@ const Login = () => {
                             />
                             <span onClick={() => setSeePassword(!seePassword)} className="-ml-6">
                                 {
-                                    seePassword ? <BsEye className="text-xl dark:text-black"></BsEye> : <IoEyeOffOutline className="text-xl dark:text-black"></IoEyeOffOutline>
+                                    seePassword ? <BsEye className="text-xl dark:text-white"></BsEye> : <IoEyeOffOutline className="text-xl dark:text-white"></IoEyeOffOutline>
                                 }
                             </span>
                         </div>

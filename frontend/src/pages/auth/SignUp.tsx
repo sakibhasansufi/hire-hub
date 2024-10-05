@@ -56,7 +56,7 @@ const SignUp = () => {
             }
         } catch (error: unknown) {
             if (error instanceof Error) { 
-              console.error(error.message);  
+              console.log(error);  
               toast.error(error.response.data.message);
             } else {
               console.error("Unknown error:", error);
@@ -75,7 +75,7 @@ const SignUp = () => {
                             Full Name
                         </label>
                         <input
-                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black"
                             placeholder="Enter your full name"
                             name="fullName"
                             value={input.fullName}
@@ -91,7 +91,7 @@ const SignUp = () => {
                             Email
                         </label>
                         <input
-                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black "
                             placeholder="Enter your email"
                             name="email"
                             value={input.email}
@@ -107,7 +107,7 @@ const SignUp = () => {
                             Phone Number
                         </label>
                         <input
-                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
+                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black "
                             placeholder="Enter your phone number"
                             name="phoneNumber"
                             value={input.phoneNumber}
@@ -125,7 +125,7 @@ const SignUp = () => {
 
                         <div className="flex items-center">
                             <input
-                                className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-black "
+                                className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black "
                                 placeholder="Enter password"
                                 name="password"
                                 value={input.password}
@@ -135,7 +135,7 @@ const SignUp = () => {
                             />
                             <span onClick={() => setSeePassword(!seePassword)} className="-ml-6">
                                 {
-                                    seePassword ? <BsEye className="text-xl dark:text-black"></BsEye> : <IoEyeOffOutline className="text-xl dark:text-black"></IoEyeOffOutline>
+                                    seePassword ? <BsEye className="text-xl dark:text-white"></BsEye> : <IoEyeOffOutline className="text-xl dark:text-white"></IoEyeOffOutline>
                                 }
                             </span>
                         </div>

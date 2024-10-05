@@ -5,14 +5,19 @@ import './index.css';
 import { StrictMode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
+import { Provider } from "react-redux";
+import {store} from './redux/store.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <HelmetProvider>
-        <App />
-        <Toaster />
-      </HelmetProvider>
+      <Provider store={store}>
+        <HelmetProvider>
+          <App />
+          <Toaster />
+        </HelmetProvider>
+      </Provider>
+
     </BrowserRouter>
   </StrictMode>
 )
