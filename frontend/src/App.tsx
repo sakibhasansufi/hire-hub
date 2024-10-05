@@ -2,11 +2,11 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./pages/shared/Navbar";
 import Browse from "./pages/Browse";
-import Jobs from "./pages/Jobs";
 import Home from "./pages/Home/Home";
 import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
 import Footer from "./pages/shared/Footer";
+import Jobs from "./pages/jobs/Jobs";
 
 
 function App() {
