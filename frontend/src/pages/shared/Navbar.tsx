@@ -6,10 +6,12 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { LogOut, User2 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import { ThemeProvider } from '@/components/theme-provider';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const Navbar = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const user = false;
+    const { user } = useSelector((store: RootState) => store.auth);
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!isMobileMenuOpen);
@@ -120,7 +122,7 @@ const Navbar = () => {
                                         </div>
                                         <div className='mt-3 flex items-center gap-1'>
                                             <User2 />
-                                            <Button variant='link'>View Profile</Button>
+                                            <Button variant='link'><Link to='/profile'>View Profile</Link></Button>
                                         </div>
                                         <div className='flex items-center gap-1'>
                                             <LogOut className='text-red-500' />

@@ -1,12 +1,13 @@
 
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./pages/shared/Navbar";
-import Browse from "./pages/Browse";
 import Home from "./pages/Home/Home";
 import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
 import Footer from "./pages/shared/Footer";
 import Jobs from "./pages/jobs/Jobs";
+import Browse from "./pages/browse/Browse";
+import Profile from "./pages/profile/Profile";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
       <div>
