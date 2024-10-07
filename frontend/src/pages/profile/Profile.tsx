@@ -4,10 +4,13 @@ import { Contact, Mail, Pen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import UpdateProfileDialog from "./UpdateProfileDialog";
 
 const skills = ["html", "css"];
+const isResume = true;
 const Profile = () => {
-    const isResume = true;
+    const [open,setOpen] = useState(false);
     return (
         <section>
             <div className="max-w-4xl mx-auto my-2 md:my-6 border border-[#EDEADE] dark:border-[#3C3D37] rounded-2xl p-4 md:p-6 lg:p-8">
@@ -25,7 +28,7 @@ const Profile = () => {
 
 
                     </div>
-                    <Button variant='outline'><Pen /></Button>
+                    <Button onClick={()=>setOpen(true)} variant='outline'><Pen /></Button>
                 </div>
 
 
@@ -72,6 +75,7 @@ const Profile = () => {
                 <h1 className="text-lg font-bold">Applied Jobs</h1>
                 <AppliedJobsTable />
             </section>
+            <UpdateProfileDialog open={open} setOpen={setOpen}/>
         </section>
     );
 };

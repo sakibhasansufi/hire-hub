@@ -61,7 +61,7 @@ const Jobs = () => {
                         </div>
                     </div>
                     {/* for large device */}
-                    <div className="w-[20%] hidden md:block">
+                    <div className="w-[18%] hidden md:block">
                         <FilterCard />
                     </div>
                     {

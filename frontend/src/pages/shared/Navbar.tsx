@@ -22,8 +22,7 @@ const Navbar = () => {
             <section className="shadow-md">
                 <nav className="max-w-7xl mx-auto mt-2 py-4 px-4 md:px-0">
                     <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-bold text-[#FF6500]">Hire Hub</h1>
-
+                        <Link to="/"><h1 className="text-2xl font-bold text-[#FF6500]">Hire Hub</h1></Link>
                         {/* Links for larger screens */}
                         <div className="hidden md:flex gap-8 items-center">
                             <NavLink to='/' className={({ isActive }) =>
