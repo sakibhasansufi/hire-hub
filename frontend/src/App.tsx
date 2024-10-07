@@ -8,6 +8,7 @@ import Footer from "./pages/shared/Footer";
 import Jobs from "./pages/jobs/Jobs";
 import Browse from "./pages/browse/Browse";
 import Profile from "./pages/profile/Profile";
+import JobDescription from "./pages/jobs/JobDescription";
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
   return (
     <section>
 
-      <div className="sticky top-0 backdrop-blur z-50 ">
+      <div className="md:sticky top-0 backdrop-blur z-50 ">
         <Navbar />
       </div>
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/description/:id" element={<JobDescription />} />
         </Routes>
       </div>
       <div>

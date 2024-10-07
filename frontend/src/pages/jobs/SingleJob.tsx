@@ -1,7 +1,10 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Bookmark } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const SingleJob = () => {
+    const navigate = useNavigate();
+    const jobId = 'nn'
     return (
         <section className="shadow-lg w-full p-4 border border-[#EDEADE] dark:border dark:border-[#3C3D37] font-inter transition-transform duration-300 ease-in-out transform   hover:scale-105 md:hover:scale-110 hover:cursor-pointer mb-10 mr-5">
             <div className="flex justify-between items-center">
@@ -53,7 +56,7 @@ const SingleJob = () => {
 
 
             <div className="mt-4 flex gap-4 md:gap-8 ">
-                <button className="border p-1 md:p-2 rounded-xl font-medium border-[#FF6500] hover:border-[#B7B7B7] text-[#FF6500] text-sm">Details</button>
+                <button onClick={()=>navigate(`/description/${jobId}`)} className="border p-1 md:p-2 rounded-xl font-medium border-[#FF6500] hover:border-[#B7B7B7] text-[#FF6500] text-sm">Details</button>
                 <button className="border p-1 md:p-2 rounded-xl text-gray-900 border-[#B7B7B7] hover:border-[#FF6500] dark:text-white text-sm">Save for letter</button>
             </div>
 
