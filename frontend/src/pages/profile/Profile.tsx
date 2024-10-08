@@ -28,7 +28,7 @@ const Profile = () => {
 
 
                     </div>
-                    <Button onClick={()=>setOpen(true)} variant='outline'><Pen /></Button>
+                    <Button onClick={()=>setOpen(true)} variant='outline' className="dark:border-[#474746]"><Pen /></Button>
                 </div>
 
 
@@ -75,7 +75,10 @@ const Profile = () => {
                 <h1 className="text-lg font-bold">Applied Jobs</h1>
                 <AppliedJobsTable />
             </section>
-            <UpdateProfileDialog open={open} setOpen={setOpen}/>
+            
+            <UpdateProfileDialog open={open} setOpen={setOpen} />
+            
+            
         </section>
     );
 };
