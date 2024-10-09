@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 
 export const register = async (req, res) => {
@@ -140,6 +142,8 @@ export const updateProfile = async (req,res) =>{
     try {
         const {fullName,email,currentPassword,newPassword,phoneNumber,bio,skills} = req.body;
         const file = req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
         const userId = req.id;
         let skillsArray;
         if(skills){
@@ -155,30 +159,30 @@ export const updateProfile = async (req,res) =>{
 
         const existingEmail = await User.findOne({ email });
 		if (existingEmail) {
-			return res.status(400).json({ error: "Email has already taken",success: false });
+			return res.status(400).json({ message: "Email has already taken",success: false });
 		}
 
         if ((!newPassword && currentPassword) || (!currentPassword && newPassword)) {
-			return res.status(400).json({ error: "Please provide both current password and new password",success: false });
+			return res.status(400).json({ message: "Please provide both current password and new password",success: false });
 		}
 
 
         if (currentPassword && newPassword) {
 			const isMatch = await bcrypt.compare(currentPassword, user.password);
-			if (!isMatch) return res.status(400).json({ error: "Current password is incorrect" });
+			if (!isMatch) return res.status(400).json({ message: "Current password is incorrect" });
 			if (newPassword.length < 6) {
-				return res.status(400).json({ error: "Password must be at least 6 characters long",success: false });
+				return res.status(400).json({ message: "Password must be at least 6 characters long",success: false });
 			}
 
 			const capitalLetterRegex = /[A-Z]/;
 			// Check if password contains at least one capital letter
 			if (!capitalLetterRegex.test(newPassword)) {
-				return res.status(400).json({ error: "Password must contain at least one capital letter",success: false });
+				return res.status(400).json({ message: "Password must contain at least one capital letter",success: false });
 			}
 			// Check if password contains at least one number
 			const numberRegex = /\d/;
 			if (!numberRegex.test(newPassword)) {
-				return res.status(400).json({ error: "Password must contain at least one number",success: false });
+				return res.status(400).json({ message: "Password must contain at least one number",success: false });
 			}
 
 			user.password = await bcrypt.hash(newPassword, 10);
@@ -188,8 +192,14 @@ export const updateProfile = async (req,res) =>{
         user.fullName = fullName || user.fullName
         user.email = email || user.email
         user.phoneNumber = phoneNumber || user.phoneNumber
-        user.bio = bio || user.bio
+        user.profile.bio = bio || user.profile.bio
         user.profile.skills = skillsArray || user.profile.skills
+
+
+        if(cloudResponse){
+            user.profile.resume = cloudResponse.secure_url // save the cloudinary url
+            user.profile.resumeOriginalName = file.originalname // Save the original file name
+        }
 
         await user.save();
 
