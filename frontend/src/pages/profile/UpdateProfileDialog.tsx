@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { USER_API_ENDPOINT } from "@/components/utils/constant";
+import { USER_API_END_POINT } from "@/components/utils/constant";
 import { setUser } from "@/redux/authSlice";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
@@ -86,7 +86,7 @@ const UpdateProfileDialog: React.FC<UpdateProfileDialogProps> = ({ open, setOpen
     
         try {
             setLoading(true);
-            const res = await axios.post(`${USER_API_ENDPOINT}/profile/update`, formData, {
+            const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

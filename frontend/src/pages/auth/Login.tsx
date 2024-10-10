@@ -6,12 +6,12 @@ import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
-import { USER_API_ENDPOINT } from "@/components/utils/constant";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 import { RootState } from "@/redux/store";
+import { USER_API_END_POINT } from "@/components/utils/constant";
 
 
 const Login = () => {
@@ -35,7 +35,7 @@ const Login = () => {
         console.log(input);
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`${USER_API_ENDPOINT}/login`, input, {
+            const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
                 headers: { 'Content-Type': "application/json" },
                 withCredentials: true,
             })

@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { USER_API_ENDPOINT } from '@/components/utils/constant';
 import { setUser } from '@/redux/authSlice';
+import { USER_API_END_POINT } from '@/components/utils/constant';
 
 const Navbar = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,7 +25,7 @@ const Navbar = () => {
 
     const logOutHandler = async()=>{
         try {
-            const res = await axios.get(`${USER_API_ENDPOINT}/logout`,{withCredentials:true});
+            const res = await axios.get(`${USER_API_END_POINT}/logout`,{withCredentials:true});
             if(res.data.success){
                 dispatch(setUser(null));
                 navigate('/login');
@@ -73,13 +73,13 @@ const Navbar = () => {
                                 <Popover>
                                     <PopoverTrigger>
                                         <Avatar>
-                                            <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                            <AvatarImage src={user?.profile?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} alt="@shadcn" />
                                         </Avatar>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-fit">
                                         <div className='flex items-center gap-4'>
                                             <Avatar>
-                                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                                <AvatarImage src={user?.profile?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} alt="@shadcn" />
                                             </Avatar>
                                             <div>
                                                 <h2 className='font-medium'>Name</h2>
@@ -132,13 +132,13 @@ const Navbar = () => {
                                 <Popover>
                                     <PopoverTrigger>
                                         <Avatar>
-                                            <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                            <AvatarImage src={user?.profile?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} alt="@shadcn" />
                                         </Avatar>
                                     </PopoverTrigger>
                                     <PopoverContent>
                                         <div className='flex items-center gap-4'>
                                             <Avatar>
-                                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                                <AvatarImage src={user?.profile?.profilePhoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} alt="@shadcn" />
                                             </Avatar>
                                             <div>
                                                 <h2 className='font-medium'>Name</h2>

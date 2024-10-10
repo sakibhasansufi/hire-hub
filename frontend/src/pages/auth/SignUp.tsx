@@ -6,12 +6,12 @@ import { useState } from "react";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { USER_API_ENDPOINT } from "@/components/utils/constant";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setLoading } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
+import { USER_API_END_POINT } from "@/components/utils/constant";
 
 
 
@@ -60,7 +60,7 @@ const SignUp = () => {
         }
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`${USER_API_ENDPOINT}/register`, formData, {
+            const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
                 headers: { 'Content-Type': "multipart/form-data" },
                 withCredentials: true,
             })
