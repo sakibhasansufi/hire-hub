@@ -1,21 +1,46 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { LogOut, User2 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import { ThemeProvider } from '@/components/theme-provider';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { toast } from 'sonner';
+import axios from 'axios';
+import { USER_API_ENDPOINT } from '@/components/utils/constant';
+import { setUser } from '@/redux/authSlice';
 
 const Navbar = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { user } = useSelector((store: RootState) => store.auth);
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!isMobileMenuOpen);
     };
+
+    const logOutHandler = async()=>{
+        try {
+            const res = await axios.get(`${USER_API_ENDPOINT}/logout`,{withCredentials:true});
+            if(res.data.success){
+                dispatch(setUser(null));
+                navigate('/login');
+                toast.success(res.data.message);
+            }
+            
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.log(error);
+                toast.error(error.response?.data?.message || "An error occurred.");
+            } else {
+                console.error("Unknown error:", error);
+            }
+        } 
+    }
 
     return (
         <div>
@@ -48,13 +73,13 @@ const Navbar = () => {
                                 <Popover>
                                     <PopoverTrigger>
                                         <Avatar>
-                                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                            <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                         </Avatar>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-fit">
                                         <div className='flex items-center gap-4'>
                                             <Avatar>
-                                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                             </Avatar>
                                             <div>
                                                 <h2 className='font-medium'>Name</h2>
@@ -66,7 +91,7 @@ const Navbar = () => {
                                         </div>
                                         <div className='flex items-center gap-1'>
                                             <LogOut className='text-red-500' />
-                                            <Button variant='link'>Logout</Button>
+                                            <Button onClick={logOutHandler} variant='link'>Logout</Button>
                                         </div>
                                     </PopoverContent>
 
@@ -107,13 +132,13 @@ const Navbar = () => {
                                 <Popover>
                                     <PopoverTrigger>
                                         <Avatar>
-                                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                            <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                         </Avatar>
                                     </PopoverTrigger>
                                     <PopoverContent>
                                         <div className='flex items-center gap-4'>
                                             <Avatar>
-                                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                             </Avatar>
                                             <div>
                                                 <h2 className='font-medium'>Name</h2>
@@ -125,7 +150,7 @@ const Navbar = () => {
                                         </div>
                                         <div className='flex items-center gap-1'>
                                             <LogOut className='text-red-500' />
-                                            <Button variant='link'>Logout</Button>
+                                            <Button onClick={logOutHandler} variant='link'>Logout</Button>
                                         </div>
                                     </PopoverContent>
                                 </Popover>

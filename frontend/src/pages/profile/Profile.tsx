@@ -94,8 +94,22 @@ const Profile = () => {
                 <section className="my-3 w-full max-w-sm flex items-center">
                     <Label>Resume</Label>
                     {
-                        isResume ? <a className="ml-3" target="_blank" href="https://chatgpt.com/" download><span className="text-blue-600 hover:underline text-sm cursor-pointer">{user?.profile?.resumeOriginalName}</span></a> : <span className="ml-3">N/A</span>
-                    }
+    isResume ? (
+        <a
+            className="ml-3"
+            href={user?.profile?.resume} // Add the href attribute
+            target="_blank"
+            rel="noopener noreferrer" // It's a good practice to use this with target="_blank"
+            download={user?.profile?.resumeOriginalName}
+        >
+            <span className="text-blue-600 hover:underline text-sm cursor-pointer">
+                {user?.profile?.resumeOriginalName}
+            </span>
+        </a>
+    ) : (
+        <span className="ml-3">N/A</span>
+    )
+}
                 </section>
             </div>
 

@@ -14,8 +14,12 @@ import { setLoading } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 
 
+
+
+
 const SignUp = () => {
     const [seePassword, setSeePassword] = useState(false);
+    const [file, setFile] = useState<File | null>(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { loading } = useSelector((store: RootState) => store.auth);
@@ -34,8 +38,11 @@ const SignUp = () => {
     }
 
     const changeFileHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInput({ ...input, file: e.target.files?.[0]?.name || "" });
-        // setInput({ ...input, file: e.target.files?.[0] });
+        const selectedFile = e.target.files?.[0];
+        if (selectedFile) {
+            setFile(selectedFile); // Store the file in a separate state
+            setInput({ ...input, file: selectedFile.name }); // Update input with the file name or URL
+        }
     };
 
 
@@ -48,8 +55,8 @@ const SignUp = () => {
         formData.append("password", input.password);
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("role", input.role);
-        if (input.file) {
-            formData.append("file", input.file);
+        if (file) { 
+            formData.append("file", file); 
         }
         try {
             dispatch(setLoading(true));
@@ -58,7 +65,7 @@ const SignUp = () => {
                 withCredentials: true,
             })
             if (res.data.success) {
-                navigate("/");
+                navigate("/login");
                 toast.success(res.data.message)
             }
         } catch (error: unknown) {
@@ -192,7 +199,7 @@ const SignUp = () => {
                         />
                     </div>
                     {
-                        loading ? <button  className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full hover:text-black"><div className="flex justify-center items-center"><Loader2 className="mr-2 animate-spin h-3 w-3"/> <div>Have patience.....</div></div></button> : <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] hover:text-black w-full">Sign u</button>
+                        loading ? <button  className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full hover:text-black"><div className="flex justify-center items-center"><Loader2 className="mr-2 animate-spin h-3 w-3"/> <div>Have patience.....</div></div></button> : <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] hover:text-black w-full">Sign up</button>
                     }
                 </form>
                 <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">

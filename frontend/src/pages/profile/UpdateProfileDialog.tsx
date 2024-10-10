@@ -85,6 +85,7 @@ const UpdateProfileDialog: React.FC<UpdateProfileDialogProps> = ({ open, setOpen
         }
     
         try {
+            setLoading(true);
             const res = await axios.post(`${USER_API_ENDPOINT}/profile/update`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -102,6 +103,8 @@ const UpdateProfileDialog: React.FC<UpdateProfileDialogProps> = ({ open, setOpen
             } else {
                 console.error("Unknown error:", error);
             }
+        } finally{
+            setLoading(false);
         }
         setOpen(false);
     };
@@ -224,7 +227,7 @@ const UpdateProfileDialog: React.FC<UpdateProfileDialogProps> = ({ open, setOpen
                                 loading ? <Button
                                  className="my-4 rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full hover:text-black">
                                  <div className="flex justify-center items-center">
-                                 <Loader2 className="mr-2 animate-spin h-3 w-3" />
+                                 <Loader2 className="mr-2 animate-spin  w-3 text-2xl" />
                                  <div>Have patience.....</div></div></Button>
                                 : <Button
                                  type="submit"
