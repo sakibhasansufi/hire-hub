@@ -119,7 +119,7 @@ const Login = () => {
                                     value="recruiter"
                                     checked={input.role === "recruiter"}
                                 />
-                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 ">Student</Label>
+                                <Label htmlFor="r1" className="text-zinc-700 dark:text-zinc-300 ">Recruiter</Label>
                             </div>
 
                         </RadioGroup>

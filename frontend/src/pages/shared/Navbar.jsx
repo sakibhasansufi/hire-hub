@@ -77,6 +77,7 @@ const Navbar = () => {
                                             </Avatar>
                                             <div>
                                                 <h2 className='font-medium'>{user?.fullName}</h2>
+                                                <h2 className='text-gray-400'>{user?.email}</h2>
                                             </div>
                                         </div>
                                         <div className='mt-3 flex items-center gap-1'>
@@ -131,6 +132,7 @@ const Navbar = () => {
                                             </Avatar>
                                             <div>
                                                 <h2 className='font-medium'>{user?.fullName}</h2>
+                                                <h2 className='text-gray-400'>{user?.email}</h2>
                                             </div>
                                         </div>
                                         <div className='mt-3 flex items-center gap-1'>
