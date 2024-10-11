@@ -10,29 +10,29 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     phoneNumber: {
         type: Number,
     },
-    role: {
-        type: String,
-        enum: ['job seeker', 'recruiter'],
-        required: true
+    password:{
+        type:String,
+        required:true,
     },
-    profile: {
-        bio: { type: String },
-        skills: [{ type: String }],
+    role:{
+        type:String,
+        enum:['job seeker','recruiter'],
+        required:true
+    },
+    profile:{
+        bio:{type:String},
+        skills:[{type:String}],
         resume:{type:String},
         resumeOriginalName:{type:String},
-        company: {type:mongoose.Schema.Types.ObjectId, ref: "Company"},
-        profilePhoto : {
+        company:{type:mongoose.Schema.Types.ObjectId, ref:'Company'}, 
+        profilePhoto:{
             type:String,
-            default: ""
+            default:""
         }
-    }
+    },
 },{timestamps:true});
 
 export const User = mongoose.model('User', userSchema);
