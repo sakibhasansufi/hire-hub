@@ -4,8 +4,7 @@ import { RxCross1 } from "react-icons/rx";
 import { RiMenu3Fill } from "react-icons/ri";
 import FilterCard from "./FilterCard";
 import SingleJob from "./SingleJob";
-
-const jobsArray = [1, 2, 3, 4, 5, 6, 7,8]
+import { useSelector } from "react-redux";
 
 const Jobs = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +12,8 @@ const Jobs = () => {
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
+
+    const { allJobs } = useSelector((state) => state.job);
     return (
         <section className="mt-10 font-inter">
             <Helmet>
@@ -36,7 +37,6 @@ const Jobs = () => {
                                 </div>
                                 <ul className="">
                                     <section >
-                                        
                                         <div className=''>
                                             <section>
                                                 <div>
@@ -65,12 +65,12 @@ const Jobs = () => {
                         <FilterCard />
                     </div>
                     {
-                        jobsArray.length <= 0 ? <div className="flex justify-around items-start md:items-center w-screen "><h1 className="">No job posted here</h1></div> : (
+                        allJobs.length <= 0 ? <div className="flex justify-around items-start md:items-center w-screen "><h1 className="">No job posted here</h1></div> : (
                             <div className="flex-1 h-[50vh] md:h-[570px] lg:h-[790px] overflow-y-auto pt-0 md:pt-4 lg:pt-7 pl-0 md:pl-2 lg:pl-5 mt-4 md:mt-0">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0  md:gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0  md:gap-10">
                                     {
-                                        jobsArray.map((index) => (
-                                            <SingleJob key={index} />
+                                        allJobs.map((job) => (
+                                            <SingleJob key={job?._id} job={job} />
                                         ))
                                     }
                                 </div>

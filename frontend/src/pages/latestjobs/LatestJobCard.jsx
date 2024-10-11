@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Bookmark } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 const LatestJobCard = ({ job }) => {
+    const navigate = useNavigate();
     return (
-        <section className="shadow-lg p-4 border border-[#EDEADE] dark:border dark:border-[#3C3D37] font-inter">
+        <section className="shadow-lg w-auto md:w-[320px] lg:w-[400px] p-4 border border-[#EDEADE]  font-inter transition-transform duration-300 ease-in-out transform hover:scale-105 md:hover:scale-110  mb-5 md:mb-2 lg:mb-3">
             <div className="flex justify-between items-center">
                 <h1>2 day</h1>
                 <Bookmark />
@@ -30,9 +32,7 @@ const LatestJobCard = ({ job }) => {
                 <h1 className="text-2xl font-semibold">{job?.title}</h1>
             </div>
 
-            <div>
-                {job?.description}
-            </div>
+           
 
 
             <div className="flex flex-col  gap-4  mt-4 ">
@@ -59,7 +59,7 @@ const LatestJobCard = ({ job }) => {
 
 
             <div className="mt-4 flex gap-8 ">
-                <button className="border p-2 rounded-xl font-medium border-[#FF6500] hover:border-[#B7B7B7] text-[#FF6500]">Details</button>
+                <button onClick={()=>navigate(`/description/${job?._id}`)} className="border p-2 rounded-xl font-medium border-[#FF6500] hover:border-[#B7B7B7] text-[#FF6500]">Details</button>
                 <button className="border p-2 rounded-xl text-gray-900 border-[#B7B7B7] hover:border-[#FF6500] dark:text-white">Save for letter</button>
             </div>
 
