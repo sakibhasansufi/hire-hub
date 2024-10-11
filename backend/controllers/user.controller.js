@@ -1,14 +1,12 @@
 import { User } from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import getDataUri from "../utils/datauri.js";
-import cloudinary from "../utils/cloudinary.js";
+
 
 
 export const register = async (req, res) => {
     try {
-        const { fullName, email, password, phoneNumber, role } = req.body;
-        console.log(fullName, email, password, phoneNumber, role)
+        const { fullName, email, password,role } = req.body;
 
         if(!fullName){
             return res.status(400).json({message: "You have forgot to enter full name",success: false})
@@ -19,9 +17,7 @@ export const register = async (req, res) => {
         if (!password) {
             return res.status(400).json({ message: "You have forgot to enter password",success: false })
         }
-        if(!phoneNumber){
-            return res.status(400).json({message: "You have forgot to enter phone number",success: false})
-        }
+        
         if(!role){
             return res.status(400).json({message: "You have forgot to enter role",success: false})
         }
@@ -52,7 +48,6 @@ export const register = async (req, res) => {
             fullName,
             email,
             password: hashedPassword,
-            phoneNumber,
             role
         })
         res.status(201).json({ message: "Account created successfully",success: true })
@@ -141,10 +136,6 @@ export const updateProfile = async (req,res) =>{
    
     try {
         const {fullName,email,currentPassword,newPassword,phoneNumber,bio,skills} = req.body;
-
-        const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
         const userId = req.id;
         let skillsArray;
         if(skills){
@@ -163,6 +154,7 @@ export const updateProfile = async (req,res) =>{
 			return res.status(400).json({ message: "Email has already taken",success: false });
 		}
 
+
         if ((!newPassword && currentPassword) || (!currentPassword && newPassword)) {
 			return res.status(400).json({ message: "Please provide both current password and new password",success: false });
 		}
@@ -176,11 +168,9 @@ export const updateProfile = async (req,res) =>{
 			}
 
 			const capitalLetterRegex = /[A-Z]/;
-			// Check if password contains at least one capital letter
 			if (!capitalLetterRegex.test(newPassword)) {
 				return res.status(400).json({ message: "Password must contain at least one capital letter",success: false });
 			}
-			// Check if password contains at least one number
 			const numberRegex = /\d/;
 			if (!numberRegex.test(newPassword)) {
 				return res.status(400).json({ message: "Password must contain at least one number",success: false });
@@ -190,22 +180,13 @@ export const updateProfile = async (req,res) =>{
 		}
 
 
-        // user.fullName = fullName || user.fullName
-        // user.email = email || user.email
-        // user.phoneNumber = phoneNumber || user.phoneNumber
-        // user.profile.bio = bio || user.profile.bio
-        // user.profile.skills = skillsArray || user.profile.skills
-
         if(fullName) user.fullName = fullName
         if(email) user.email = email
         if(phoneNumber)  user.phoneNumber = phoneNumber
         if(bio) user.profile.bio = bio
         if(skills) user.profile.skills = skillsArray
         
-        if(cloudResponse){
-            user.profile.resume=cloudResponse.secure_url
-            user.profile.resumeOriginalName=file.originalname
-        }
+        
 
         await user.save();
 
