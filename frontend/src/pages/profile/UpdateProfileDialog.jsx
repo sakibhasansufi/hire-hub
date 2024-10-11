@@ -19,9 +19,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const [seePassword, setSeePassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const { user } = useSelector((store) => store.auth);
-    const dispatch = useDispatch();
-
-
+     
     const [input, setInput] = useState({
         fullName: user?.fullName || "",
         email: user?.email || "",
@@ -32,13 +30,14 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         skills: user?.profile?.skills?.map(skill => skill) || "",
         file: user?.profile?.resume || ""
     });
-
+    
+    const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
 
-    const changeFileHandler = (e) => {
+    const fileChangeHandler = (e) => {
         const file = e.target.files?.[0];
         setInput({ ...input, file })
     }
@@ -53,7 +52,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         formData.append('newPassword', input.newPassword);
         formData.append('phoneNumber', input.phoneNumber);
         formData.append('bio', input.bio);
-        formData.append("skills", Array.isArray(input.skills) ? input.skills.join(",") : input.skills);
+        formData.append("skills", input.skills);
         if (input.file) {
             formData.append("file", input.file);
         }
@@ -189,7 +188,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     id="file"
                                     name="file"
                                     type="file"
-                                    onChange={changeFileHandler}
+                                    onChange={fileChangeHandler}
                                     accept="application/pdf"
                                     className="col-span-3  dark:border-[#3C3D37]"
                                 />
