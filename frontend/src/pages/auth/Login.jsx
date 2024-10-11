@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 import { USER_API_END_POINT } from "@/components/utils/constant";
+import { Helmet } from "react-helmet-async";
 
 
 const Login = () => {
@@ -52,6 +53,9 @@ const Login = () => {
     }
     return (
         <section className="min-h-screen flex items-center font-lato">
+            <Helmet>
+                <title>Log in</title>
+            </Helmet>
             <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border bg-white p-7 shadow-lg sm:p-10 dark:border-zinc-700 dark:bg-zinc-900">
                 <h1 className="text-3xl font-semibold tracking-tight">Log in</h1>
 

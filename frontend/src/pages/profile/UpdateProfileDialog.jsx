@@ -25,9 +25,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const [input, setInput] = useState({
         fullName: user?.fullName || "",
         email: user?.email || "",
+        phoneNumber: user?.phoneNumber || "",
         currentPassword: user?.currentPassword || "",
         newPassword: user?.newPassword || "",
-        phoneNumber: user?.phoneNumber || "",
         bio: user?.profile?.bio || "",
         skills: user?.profile?.skills?.map(skill => skill) || "",
         file: user?.profile?.resume || ""
@@ -37,7 +37,6 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
-
 
     const changeFileHandler = (e) => {
         const file = e.target.files?.[0];
@@ -125,9 +124,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 <Input
                                     id="phoneNumber"
                                     name="phoneNumber"
+                                    placeholder="01700000000"
                                     value={input.phoneNumber}
                                     onChange={changeEventHandler}
-                                    type="text"
+                                    type="number"
                                     className="col-span-3  dark:border-[#3C3D37]"
                                 />
                             </div>
@@ -164,6 +164,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 <Input
                                     id="bio"
                                     name="bio"
+                                    placeholder="I am a web developer"
                                     value={input.bio}
                                     onChange={changeEventHandler}
                                     type="text"
@@ -175,6 +176,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 <Input
                                     id="skills"
                                     name="skills"
+                                    placeholder='html,css,JavaScript'
                                     value={input.skills}
                                     onChange={changeEventHandler}
                                     type="text"

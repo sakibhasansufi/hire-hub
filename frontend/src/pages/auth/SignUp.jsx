@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 import { USER_API_END_POINT } from "@/components/utils/constant";
+import { Helmet } from "react-helmet-async";
 
 
 const SignUp = () => {
@@ -23,19 +24,12 @@ const SignUp = () => {
         fullName: "",
         email: "",
         password: "",
-        phoneNumber: "",
         role: "",
-        file: ""
     })
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
-
-    const changeFileHandler = (e) => {
-        setInput({ ...input, file: e.target.files?.[0] });
-    }
-
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -46,9 +40,6 @@ const SignUp = () => {
         formData.append("password", input.password);
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("role", input.role);
-        if (input.file) {
-            formData.append("file", input.file);
-        }
         try {
             dispatch(setLoading(true));
             const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
@@ -69,6 +60,9 @@ const SignUp = () => {
 
     return (
         <section className="min-h-screen flex items-center font-lato">
+            <Helmet>
+                <title>Sign Up</title>
+            </Helmet>
             <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border bg-white p-7 shadow-lg sm:p-10 dark:border-zinc-700 dark:bg-zinc-900">
                 <h1 className="text-3xl font-semibold tracking-tight">Sign Up</h1>
 
@@ -79,7 +73,7 @@ const SignUp = () => {
                         </label>
                         <input
                             className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black"
-                            placeholder="Enter your full name"
+                            placeholder="John Doe"
                             name="fullName"
                             value={input.fullName}
                             type="text"
@@ -95,26 +89,10 @@ const SignUp = () => {
                         </label>
                         <input
                             className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black "
-                            placeholder="Enter your email"
+                            placeholder="johndoe@gmail.com"
                             name="email"
                             value={input.email}
                             type="email"
-                            onChange={changeEventHandler}
-
-                        />
-                    </div>
-
-
-                    <div className="space-y-2 text-sm">
-                        <label htmlFor="username" className="block text-zinc-700 dark:text-zinc-300 font-medium">
-                            Phone Number
-                        </label>
-                        <input
-                            className="flex h-12 w-full rounded-md border px-3 py-2 text-lg focus:border-[#FF6500] focus-visible:outline-none border-[#B7B7B7] dark:text-white dark:bg-black "
-                            placeholder="Enter your phone number"
-                            name="phoneNumber"
-                            value={input.phoneNumber}
-                            type="text"
                             onChange={changeEventHandler}
 
                         />
@@ -172,21 +150,8 @@ const SignUp = () => {
 
                         </RadioGroup>
                     </div>
-
-
-                    <div>
-                        <Label className="text-sm font-medium leading-none text-zinc-700 dark:text-zinc-300 " htmlFor="password_">
-                            Profile
-                        </Label>
-                        <Input
-                            className="mt-2 border-[#B7B7B7]"
-                            accept="image/*"
-                            type="file"
-                            onChange={changeFileHandler}
-                        />
-                    </div>
                     {
-                        loading ? <button  className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full hover:text-black"><div className="flex justify-center items-center"><Loader2 className="mr-2 animate-spin h-3 w-3"/> <div>Have patience.....</div></div></button> : <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] hover:text-black w-full">Sign up</button>
+                        loading ? <button className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] w-full hover:text-black"><div className="flex justify-center items-center"><Loader2 className="mr-2 animate-spin h-3 w-3" /> <div>Have patience.....</div></div></button> : <button type="submit" className="rounded-md bg-[#FF6500] px-4 py-2 text-white transition-colors hover:bg-[#B7B7B7] hover:text-black w-full">Sign up</button>
                     }
                 </form>
                 <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">
