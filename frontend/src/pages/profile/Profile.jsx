@@ -15,7 +15,7 @@ const Profile = () => {
     const { user } = useSelector((store) => store.auth);
     return (
         <section>
-            <div className="max-w-4xl mx-auto my-2 md:my-6 border border-[#EDEADE] dark:border-[#3C3D37] rounded-2xl p-4 md:p-6 lg:p-8">
+            <div className="max-w-4xl mx-auto my-2 md:my-6 border border-[#EDEADE] rounded-2xl p-4 md:p-6 lg:p-8">
 
                 <div className="flex justify-between">
                     <div className="flex items-center gap-5">
@@ -75,27 +75,35 @@ const Profile = () => {
                 <section className="my-3 w-full max-w-sm flex items-center">
                     <Label>Resume</Label>
                     {
-    isResume ? (
-        <a
-            className="ml-3"
-            href={user?.profile?.resume} // Add the href attribute
-            target="_blank"
-            rel="noopener noreferrer" // It's a good practice to use this with target="_blank"
-            download={user?.profile?.resumeOriginalName}
-        >
-            <span className="text-blue-600 hover:underline text-sm cursor-pointer">
-                {user?.profile?.resumeOriginalName}
-            </span>
-        </a>
-    ) : (
-        <span className="ml-3">N/A</span>
-    )
-}
+                        isResume ? (
+                            <a
+                                className="ml-3"
+                                href={user?.profile?.resume} // Add the href attribute
+                                target="_blank"
+                                rel="noopener noreferrer" // It's a good practice to use this with target="_blank"
+                                download={user?.profile?.resumeOriginalName}
+                            >
+                                <span className="text-blue-600 hover:underline text-sm cursor-pointer">
+                                    {user?.profile?.resumeOriginalName}
+                                </span>
+                            </a>
+                        ) : (
+                            <span className="ml-3">N/A</span>
+                        )
+                    }
                 </section>
             </div>
 
+
             <section className="max-w-4xl mx-auto  rounded-2xl">
-                <h1 className="text-lg font-bold">Applied Jobs</h1>
+                <div className="my-5">
+                    <details >
+                        <summary className="text-lg font-semibold text-[#FF6500]">Profile update guide line</summary>
+                        <li className="font-medium">First update your resume. If you do not first update your resume first, the update will not work</li>
+                        <li className="font-medium">Please provide unique email for update. If you do not want to update email, clear the email field.</li>
+                    </details>
+                </div>
+                <h1 className="text-lg font-semibold my-5 ]">Applied Jobs</h1>
                 <AppliedJobsTable />
             </section>
 

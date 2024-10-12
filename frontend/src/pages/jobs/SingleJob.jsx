@@ -5,10 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 const SingleJob = ({job}) => {
     const navigate = useNavigate();
+
+    const daysAgoFunction = (mongodbTime) =>{
+        const createdAt = new Date(mongodbTime);
+        const currentTime = new Date();
+        const timeDifference = currentTime - createdAt;
+        return Math.floor(timeDifference/(1000*24*60*60))
+    }
     return (
         <section className="shadow-lg w-full p-4 border border-[#EDEADE]  font-inter transition-transform duration-300 ease-in-out transform hover:scale-105 md:hover:scale-110 mb-0 md:mb-5 lg:mb-10">
             <div className="flex justify-between items-center">
-                <h1>2 day</h1>
+                <h1>{daysAgoFunction(job?.createdAt) === 0 ? 'Today' : `${daysAgoFunction(job?.createdAt)} days ago`}</h1>
                 <Bookmark />
             </div>
 
