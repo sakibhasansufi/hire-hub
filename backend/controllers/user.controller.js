@@ -224,6 +224,6 @@ export const updateProfile = async (req,res) =>{
 
     } catch (error) {
         console.log("Error in update profile: ", error.message);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: "First upload your resume" });
     }
 }

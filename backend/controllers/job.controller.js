@@ -2,7 +2,7 @@ import { Job } from "../models/job.model.js";
 
 export const postJob = async (req, res) => {
     try {
-        const { title, description, requirements, salary, experience, location, jobType, position, companyId } = req.body;
+        const { title, description, requirements, salary, experience, location, jobType, position, companyId, education, responsibility } = req.body;
         const userId = req.id;
         if (!title) {
             return res.status(400).json({ message: "You have forgot to provide job title",success: false })
@@ -31,6 +31,12 @@ export const postJob = async (req, res) => {
         if (!location) {
             return res.status(400).json({ message: "You have forgot to provide the job location",success: false })
         }
+        if (!education) {
+            return res.status(400).json({ message: "You have forgot to provide the education level",success: false })
+        }
+        if (!responsibility) {
+            return res.status(400).json({ message: "You have forgot to provide responsibility",success: false })
+        }
         if (!companyId) {
             return res.status(400).json({ message: "Please provide the company Id",success: false })
         }
@@ -44,6 +50,8 @@ export const postJob = async (req, res) => {
             location,
             jobType,
             position,
+            education,
+            responsibility,
             company: companyId,
             created_by: userId
 
