@@ -14,7 +14,7 @@ const Footer = () => {
                                 <Link to='/admin/companies' className="cursor-pointer hover:underline">Companies</Link>
                             </li>
                             <li>
-                                <Link className="cursor-pointer hover:underline">Contact</Link>
+                                <Link to='/admin/jobs' className="cursor-pointer hover:underline">Jobs</Link>
                             </li>
 
                         </ul>
