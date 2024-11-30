@@ -34,19 +34,19 @@ export const register = async (req, res) => {
         };
 
         if (password.length < 6) {
-            return res.status(400).json({ error: "Password must be at least 6 characters long",success: false });
+            return res.status(400).json({ message: "Password must be at least 6 characters long",success: false });
         }
 
         // Check if password contains at least one capital letter
         const capitalLetterRegex = /[A-Z]/;
         if (!capitalLetterRegex.test(password)) {
-            return res.status(400).json({ error: "Password must contain at least one capital letter",success: false });
+            return res.status(400).json({ message: "Password must contain at least one capital letter",success: false });
         }
 
         // Check if password contains at least one number
         const numberRegex = /\d/;
         if (!numberRegex.test(password)) {
-            return res.status(400).json({ error: "Password must contain at least one number",success: false });
+            return res.status(400).json({ message: "Password must contain at least one number",success: false });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
