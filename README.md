@@ -11,6 +11,16 @@ Hire hub is a job portal website. You can lig in as job seeker or recruiter. As 
 - They can post new jobs, update and even delete the jobs.
 - Recruiter can see how many people applied in the jobs, see their resume and accept or reject the job seeker.
 
+## Set up instruction
+1. CLone the repository
+   ``` bash
+   git clone https://github.com/sakibhasansufi/hire-hub
+    ```
+2. Install dependencies
+   ``` bash
+   npm install
+   ```
+
 This website is hosted on render. So first time enter into the website will take time.
 
 
